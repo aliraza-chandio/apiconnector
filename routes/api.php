@@ -6,6 +6,7 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DonorController;
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('donors', DonorController::class);
     Route::resource('classes', ClassesController::class);
-    Route::post('classes/record/updatedata', [ClassesController::class, 'updateData'])->name('updateData');
+    Route::post('donors/updatedata', [DonorController::class, 'updateData'])->name('updateData');
+    Route::post('classes/updatedata', [ClassesController::class, 'updateData'])->name('updateData');
+    Route::post('branches/updatedata', [BranchController::class, 'updateData'])->name('updateData');
     Route::resource('students', StudentController::class);
+    Route::resource('branches', BranchController::class);
 });

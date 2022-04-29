@@ -21,11 +21,11 @@ class StudentController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
-
+        // dd($student);
         if (!$student) {
             return response()->json([
                 'success' => false,
-                'message' => 'Student not found '
+                'message' => 'Student not found12345678'
             ], 400);
         }
 
@@ -56,14 +56,9 @@ class StudentController extends Controller
             'phone' => 'required',
             'whatsapp' => 'required',
             'address' => 'required',
-            'did_child' => 'required',
             'monthly_income' => 'required',
-            // 'class_id' => 'required',
-            // 'donor_id' => 'required',
-            // 'user_id' => 'required',
         ]);
         $student = new Student();
-
         $student->full_name = $request->full_name;
         $student->gender = $request->gender;
         $student->date_of_birth = $request->date_of_birth;
@@ -82,11 +77,18 @@ class StudentController extends Controller
         $student->whatsapp = $request->whatsapp;
         $student->address = $request->address;
         $student->did_child = $request->did_child;
+        $student->migrated_from = $request->migrated_from;
+        $student->age = $request->age;
         $student->monthly_income = $request->monthly_income;
-        // $student->class_id = $request->class_id;
-        // $student->donor_id = $request->donor_id;
         $student->user_id = Auth::user()->user_id;
         $student->save();
+        // dd($student);
+        $studentData = Student::find($student->id);
+        $studentData->student_profile = env('APPLICATION_URL') . '/students/' . $student->id . '/' . $request->student_profile;
+        $studentData->birth_certificate = env('APPLICATION_URL') . '/students/' . $student->id . '/' . $request->birth_certificate;
+        $studentData->fcnic_image = env('APPLICATION_URL') . '/students/' . $student->id . '/' . $request->fcnic_image;
+        $studentData->mcnic_image = env('APPLICATION_URL') . '/students/' . $student->id . '/' . $request->mcnic_image;
+        $studentData->update();
         if ($student)
             return response()->json([
                 'success' => true,
@@ -123,14 +125,14 @@ class StudentController extends Controller
             ], 500);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $student = Student::find($id);
+        $student = Student::find($request->id);
 
         if (!$student) {
             return response()->json([
                 'success' => false,
-                'message' => 'Student not found'
+                'message' => 'Student not found123'
             ], 400);
         }
 

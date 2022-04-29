@@ -60,6 +60,32 @@ class DonorController extends Controller
             ], 500);
     }
 
+    public function updateData(Request $request)
+    {
+        $data = $request->all();
+        $donor = Donor::find($data['id']);
+        if (!$donor) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Donors not found'
+            ], 400);
+        }
+        $donor->title = $data['title'];
+        $donor->email = $data['email'];
+        $donor->status = $data['status'];
+
+        $updated = $donor->update();
+
+        if ($updated)
+            return response()->json([
+                'success' => true
+            ]);
+        else
+            return response()->json([
+                'success' => false,
+                'message' => 'Donors can not be updated'
+            ], 500);
+    }
     public function update(Request $request, $id)
     {
         $data = $request->all();

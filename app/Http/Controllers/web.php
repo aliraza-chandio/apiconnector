@@ -14,9 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    Artisan::call('config:cache');
-    Artisan::call('config:clear');
-
     return view('welcome');
 });
